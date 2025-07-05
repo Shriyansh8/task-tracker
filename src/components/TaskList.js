@@ -72,54 +72,56 @@ const TaskList = ({ username }) => {
     );
 
   return (
-    <div>
-      <h2>Welcome, {username} 👋</h2>
+    <div className="dashboard-wrapper">
+      <div className="dashboard-card">
+        <h2>Welcome, {username} 👋</h2>
 
-      {!showForm && (
-        <button onClick={() => setShowForm(true)}>+ Add Task</button>
-      )}
-
-      {showForm && (
-        <TaskForm
-          onSubmit={editingTask ? handleUpdate : handleAdd}
-          onCancel={() => {
-            setShowForm(false);
-            setEditingTask(null);
-          }}
-          initialData={editingTask}
-        />
-      )}
-
-      <input
-        type="text"
-        placeholder="Search tasks..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-
-      <TaskFilter
-        currentFilter={filter}
-        onFilterChange={setFilter}
-        taskCounts={taskCounts}
-      />
-
-      <div className="task-list">
-        {filteredTasks.length === 0 ? (
-          <p>No matching tasks.</p>
-        ) : (
-          filteredTasks.map((task) => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              onEdit={() => {
-                setEditingTask(task);
-                setShowForm(true);
-              }}
-              onDelete={() => handleDelete(task.id)}
-              onToggleComplete={() => toggleComplete(task.id)}
-            />
-          ))
+        {!showForm && (
+          <button onClick={() => setShowForm(true)}>+ Add Task</button>
         )}
+
+        {showForm && (
+          <TaskForm
+            onSubmit={editingTask ? handleUpdate : handleAdd}
+            onCancel={() => {
+              setShowForm(false);
+              setEditingTask(null);
+            }}
+            initialData={editingTask}
+          />
+        )}
+
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <TaskFilter
+          currentFilter={filter}
+          onFilterChange={setFilter}
+          taskCounts={taskCounts}
+        />
+
+        <div className="task-list">
+          {filteredTasks.length === 0 ? (
+            <p>No matching tasks.</p>
+          ) : (
+            filteredTasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                onEdit={() => {
+                  setEditingTask(task);
+                  setShowForm(true);
+                }}
+                onDelete={() => handleDelete(task.id)}
+                onToggleComplete={() => toggleComplete(task.id)}
+              />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
