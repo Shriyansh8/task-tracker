@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Login from "./components/Login";
+import TaskList from "./components/TaskList";
+import "./styles/App.css";
 
 function App() {
+  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.body.className = darkMode ? "dark" : "";
+  }, [darkMode]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("username");
+    setUsername(null);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {username && (
+        <div className="top-bar">
+          <button onClick={() => setDarkMode((prev) => !prev)}>
+            {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+          </button>
+          <button onClick={handleLogout} className="logout-btn">
+            🚪 Sign Out
+          </button>
+        </div>
+      )}
+
+      {!username ? (
+        <Login onLogin={setUsername} />
+      ) : (
+        <TaskList username={username} />
+      )}
     </div>
   );
 }
